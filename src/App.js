@@ -1,69 +1,38 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const App = () => {
-  const [currentLat, setCurrentLat] = useState("");
-  const [currentLon, setCurrentLon] = useState("");
-  const [currentLocation, setCurrentLocation] = useState("");
   const [temp, setTemp] = useState("");
   const [cityInputValue, setCityInputValue] = useState("");
-  const [currentCity, setCurrentCity] = useState(currentLocation);
-  const effectRan = useRef(false);
-
-  console.log(currentLocation);
+  const [currentCity, setCurrentCity] = useState("London");
+  const [cityData, setCityData] = useState("");
+  const [country, setCountry] = useState("");
+  const [maxTemp, setMaxTemp] = useState("");
+  const [minTemp, setMinTemp] = useState("");
+  const [weather, setWeather] = useState("");
+  const [weatherIcon, setWeatherIcon] = useState(undefined);
 
   const handleCityInput = (event) => {
     setCityInputValue(event.target.value);
   };
 
   useEffect(() => {
-    if (effectRan.current === false) {
-      const options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0,
-      };
-
-      function success(pos) {
-        const crd = pos.coords;
-
-        setCurrentLat(crd.latitude);
-        setCurrentLon(crd.longitude);
-      }
-
-      function error(err) {
-        console.warn(`ERROR(${err.code}): ${err.message}`);
-      }
-
-      navigator.geolocation.getCurrentPosition(success, error, options);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (effectRan.current === false) {
-      const fetchCity = async () => {
-        const response = await fetch(
-          `https://eu1.locationiq.com/v1/reverse?key=${process.env.REACT_APP_IQ_TOKEN}&lat=${currentLat}&lon=${currentLon}&format=json`
-        );
-
-        const cityData = await response.json();
-        setCurrentLocation(cityData?.address?.city);
-      };
-      fetchCity();
-    }
-  }, [currentLat, currentLon]);
-
-  useEffect(() => {
-    if (effectRan.current === false) {
-      const fetchWeather = async () => {
-        const response = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&units=metric&appid=${process.env.REACT_APP_API_KEY}`
-        );
-
-        const weatherData = await response.json();
-        setTemp(Math.round(weatherData?.main?.temp));
-      };
-      fetchWeather();
-    }
+    const fetchWeather = () => {
+      fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&units=metric&appid=${process.env.REACT_APP_API_KEY}`
+      )
+        .then((response) => response.json())
+        .then((weatherData) => {
+          setTemp(Math.round(weatherData?.main?.temp));
+          setCityData(weatherData?.name);
+          setCountry(weatherData?.sys.country);
+          setMaxTemp(Math.round(weatherData?.main?.temp_max));
+          setMinTemp(Math.round(weatherData?.main?.temp_min));
+          setWeather(weatherData?.weather?.[0].main);
+          setWeatherIcon(weatherData?.weather?.[0].icon);
+        })
+        .catch((err) => console.error(err));
+    };
+    fetchWeather();
   }, [currentCity]);
 
   const handleCitySubmit = (event) => {
@@ -81,7 +50,15 @@ const App = () => {
         />
         <button>Go</button>
       </form>
+      <div>
+        {cityData}, {country}
+      </div>
       <div>{temp}º</div>
+      <div>
+        <p>Min: {minTemp}</p>
+        <p>Max: {maxTemp}</p>
+      </div>
+      <div>{weather}</div>
     </div>
   );
 };
