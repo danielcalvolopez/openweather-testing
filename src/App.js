@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
 const App = () => {
+  const initialState = "No city selected";
   const formRef = useRef();
   const [temp, setTemp] = useState("");
   const [cityInputValue, setCityInputValue] = useState("");
-  const [currentCity, setCurrentCity] = useState("London");
+  const [currentCity, setCurrentCity] = useState(initialState);
   const [cityData, setCityData] = useState("");
   const [country, setCountry] = useState("");
   const [maxTemp, setMaxTemp] = useState("");
@@ -15,6 +16,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [currentLocation, setCurrentLocation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [iconUrl, setIconUrl] = useState("");
 
   console.log(currentLocation);
 
@@ -23,6 +25,7 @@ const App = () => {
   };
 
   useEffect(() => {
+    setError(false);
     setIsLoading(true);
     const fetchWeather = () => {
       fetch(
@@ -40,8 +43,9 @@ const App = () => {
           setCountry(weatherData?.sys?.country);
           setMaxTemp(Math.round(weatherData?.main?.temp_max));
           setMinTemp(Math.round(weatherData?.main?.temp_min));
-          setWeather(weatherData?.weather?.[0].main);
-          setWeatherIcon(weatherData?.weather?.[0].icon);
+          setWeather(weatherData?.weather?.[0]?.main);
+          setWeatherIcon(weatherData?.weather?.[0]?.icon);
+          setIconUrl(`http://openweathermap.org/img/wn/${weatherIcon}@2x.png`);
         })
         .catch((err) => {
           setError(true);
@@ -50,7 +54,7 @@ const App = () => {
     };
     fetchWeather();
     setIsLoading(false);
-  }, [currentCity]);
+  }, [currentCity, weatherIcon]);
 
   const handleCitySubmit = (event) => {
     event.preventDefault();
@@ -65,6 +69,7 @@ const App = () => {
   };
 
   const handleLocation = () => {
+    setError(false);
     setIsLoading(true);
     const successfulLookup = (position) => {
       const { latitude, longitude } = position.coords;
@@ -93,6 +98,7 @@ const App = () => {
             onChange={handleCityInput}
             type="text"
             placeholder="Search a city..."
+            required
           />
           <button>Go</button>
         </form>
@@ -101,7 +107,9 @@ const App = () => {
         </button>
       </div>
 
-      {isLoading ? (
+      {currentCity === initialState ? (
+        <div>{initialState}</div>
+      ) : isLoading ? (
         <div>Loading...</div>
       ) : !error ? (
         <div>
@@ -114,10 +122,7 @@ const App = () => {
             <p>Max: {maxTemp}</p>
           </div>
           <div>
-            <img
-              src={`http://openweathermap.org/img/wn/${weatherIcon}@2x.png`}
-              alt="weatherlogo"
-            />
+            <img src={iconUrl} alt="weatherlogo" />
             <div>{weather}</div>
           </div>
         </div>
