@@ -19,6 +19,9 @@
       outline: none;
       overflow: hidden;
       border-right: hidden;
+      &::placeholder {
+        color: rgb(190, 190, 190);
+      }
     }
     button {
       border-left: hidden;
@@ -37,5 +40,8 @@
     padding: 10px;
     background-color: transparent;
     cursor: pointer;
+  }
+  .location-btn:hover {
+    background-color: rgba(211, 211, 211, 0.265);
   }
 }

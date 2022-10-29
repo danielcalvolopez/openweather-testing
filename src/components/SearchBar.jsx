@@ -40,7 +40,7 @@ const SearchBar = ({
           <GrSearch />
         </button>
       </form>
-      <button type="submit" onClick={handleLocation}>
+      <button className="location-btn" type="submit" onClick={handleLocation}>
         <ImLocation />
       </button>
     </div>

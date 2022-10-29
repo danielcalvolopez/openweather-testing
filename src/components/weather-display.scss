@@ -11,7 +11,7 @@
     justify-content: center;
     .city {
       font-size: x-large;
-      font-weight: 600;
+      font-weight: 500;
     }
     .temperature {
       display: flex;
@@ -36,10 +36,16 @@
   }
   .error {
     color: red;
+    font-size: x-large;
+    margin-bottom: 30px;
   }
 
   .date {
     font-size: small;
     font-weight: 300;
+  }
+  .initial-state {
+    font-size: x-large;
+    margin-bottom: 30px;
   }
 }
