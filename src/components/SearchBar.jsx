@@ -1,9 +1,34 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import "./search-bar.scss";
+import { GrSearch } from "react-icons/gr";
+import { ImLocation } from "react-icons/im";
 
-const SearchBar = ({ handleCitySubmit, handleCityInput, handleLocation }) => {
+const SearchBar = ({
+  handleLocation,
+  setCurrentCity,
+  setIsLoading,
+  setError,
+}) => {
   const formRef = useRef();
+  const [cityInputValue, setCityInputValue] = useState("");
+
+  const handleCityInput = (event) => {
+    setCityInputValue(event.target.value);
+  };
+  const handleCitySubmit = (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+    setError(false);
+    if (cityInputValue === "") {
+      setError(true);
+    }
+    setCurrentCity(cityInputValue);
+    setIsLoading(false);
+    formRef.current.reset();
+  };
+
   return (
-    <div>
+    <div className="search-container">
       <form ref={formRef} onSubmit={handleCitySubmit}>
         <input
           onChange={handleCityInput}
@@ -11,10 +36,12 @@ const SearchBar = ({ handleCitySubmit, handleCityInput, handleLocation }) => {
           placeholder="Search a city..."
           required
         />
-        <button>Go</button>
+        <button>
+          <GrSearch />
+        </button>
       </form>
       <button type="submit" onClick={handleLocation}>
-        My location
+        <ImLocation />
       </button>
     </div>
   );

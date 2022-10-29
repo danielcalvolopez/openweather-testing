@@ -6,35 +6,24 @@ export const LocationContext = createContext();
 
 export const LocationContextProvider = ({ children }) => {
   const [currentLocation, setCurrentLocation] = useState("");
-  const [currentLat, setCurrentLat] = useState("");
-  const [currentLon, setCurrentLon] = useState("");
 
-  const options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 0,
-  };
-
-  function success(pos) {
-    const crd = pos.coords;
-
-    setCurrentLat(crd.latitude);
-    setCurrentLon(crd.longitude);
-  }
-
-  function error(err) {
-    console.warn(`ERROR(${err.code}): ${err.message}`);
-  }
-
-  navigator.geolocation.getCurrentPosition(success, error, options);
   useEffect(() => {
-    fetch(
-      `https://eu1.locationiq.com/v1/reverse?key=${process.env.REACT_APP_IQ_TOKEN}&lat=${currentLat}&lon=${currentLon}&format=json`
-    )
-      .then((response) => response.json())
-      .then((data) => setCurrentLocation(data?.address?.city))
-      .catch((err) => console.error(err));
-  }, [currentLat, currentLon]);
+    const successfulLookup = (position) => {
+      const { latitude, longitude } = position.coords;
+      fetch(
+        `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${process.env.REACT_APP_GEO_CODE}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setCurrentLocation(data.results[0].components.city);
+        });
+    };
+
+    window.navigator.geolocation.getCurrentPosition(
+      successfulLookup,
+      console.log
+    );
+  }, []);
 
   return (
     <LocationContext.Provider value={currentLocation}>
