@@ -1,0 +1,45 @@
+.display-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .data-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .city {
+      font-size: x-large;
+      font-weight: 600;
+    }
+    .temperature {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      .current {
+        font-size: 140px;
+        font-weight: 100;
+      }
+      .min-max {
+        font-size: small;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+      }
+    }
+    .weather-conditions {
+      .weather-logo {
+        width: 140px;
+      }
+    }
+  }
+  .error {
+    color: red;
+  }
+
+  .date {
+    font-size: small;
+    font-weight: 300;
+  }
+}

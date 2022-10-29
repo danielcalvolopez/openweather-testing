@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useContext } from "react";
+import { useEffect, useState } from "react";
+import { TimeContext } from "../context/TimeContext";
+import "./weather-display.scss";
 
 const WeatherDisplay = ({
   currentCity,
@@ -17,6 +20,7 @@ const WeatherDisplay = ({
   const [weatherIcon, setWeatherIcon] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [iconUrl, setIconUrl] = useState("");
+  const dateState = useContext(TimeContext);
 
   useEffect(() => {
     setError(false);
@@ -40,6 +44,7 @@ const WeatherDisplay = ({
           setWeather(weatherData?.weather?.[0]?.main);
           setWeatherIcon(weatherData?.weather?.[0]?.icon);
           setIconUrl(`http://openweathermap.org/img/wn/${weatherIcon}@2x.png`);
+          console.log(weatherData);
         })
         .catch((err) => {
           setError(true);
@@ -51,29 +56,45 @@ const WeatherDisplay = ({
   }, [currentCity, setError, setIsLoading, weatherIcon]);
 
   return (
-    <div>
+    <div className="display-container">
       {currentCity === initialState ? (
-        <div>{initialState}</div>
+        <div className="initial-state">{initialState}</div>
       ) : isLoading ? (
-        <div>Loading...</div>
+        <div className="loading">Loading...</div>
       ) : !error ? (
-        <div>
-          <div>
+        <div className="data-container">
+          <div className="city">
             {cityData}, {country}
           </div>
-          <div>{temp}º</div>
-          <div>
-            <p>Min: {minTemp}</p>
-            <p>Max: {maxTemp}</p>
+
+          <div className="temperature">
+            <div className="current">{temp}º</div>
+            <div className="min-max">
+              <p>Min: {minTemp}</p>
+              <p>Max: {maxTemp}</p>
+            </div>
           </div>
-          <div>
-            <img src={iconUrl} alt="weatherlogo" />
-            <div>{weather}</div>
+          <div className="weather-conditions">
+            <img className="weather-logo" src={iconUrl} alt="weatherlogo" />
+            {/* <div>{weather}</div> */}
           </div>
         </div>
       ) : (
-        <div>{errorMessage}</div>
+        <div className="error">{errorMessage}</div>
       )}
+      <div className="date">
+        {dateState.toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        })}
+        ,{" "}
+        {dateState.toLocaleString("en-GB", {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        })}
+      </div>
     </div>
   );
 };

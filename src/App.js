@@ -3,6 +3,7 @@ import SearchBar from "./components/SearchBar";
 import WeatherDisplay from "./components/WeatherDisplay";
 import { LocationContext } from "./context/LocationContext";
 import "./app.scss";
+import { TimeContextProvider } from "./context/TimeContext";
 
 const App = () => {
   const currentLocation = useContext(LocationContext);
@@ -19,22 +20,26 @@ const App = () => {
   };
 
   return (
-    <div className="container">
-      <SearchBar
-        handleLocation={handleLocation}
-        setCurrentCity={setCurrentCity}
-        setIsLoading={setIsLoading}
-        setError={setError}
-      />
+    <TimeContextProvider>
+      <div className="outter">
+        <div className="container">
+          <SearchBar
+            handleLocation={handleLocation}
+            setCurrentCity={setCurrentCity}
+            setIsLoading={setIsLoading}
+            setError={setError}
+          />
 
-      <WeatherDisplay
-        currentCity={currentCity}
-        isLoading={isLoading}
-        setIsLoading={setIsLoading}
-        error={error}
-        setError={setError}
-      />
-    </div>
+          <WeatherDisplay
+            currentCity={currentCity}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            error={error}
+            setError={setError}
+          />
+        </div>
+      </div>
+    </TimeContextProvider>
   );
 };
 
