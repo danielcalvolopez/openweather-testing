@@ -68,10 +68,12 @@ const WeatherDisplay = ({
           </div>
 
           <div className="temperature">
-            <div className="current">{temp}º</div>
-            <div className="min-max">
-              <p>Min: {minTemp}</p>
-              <p>Max: {maxTemp}</p>
+            <div className="current">
+              {temp}º
+              <div className="min-max">
+                <p>Min: {minTemp}º</p>
+                <p>Max: {maxTemp}º</p>
+              </div>
             </div>
           </div>
           <div className="weather-conditions">

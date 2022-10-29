@@ -1,30 +1,20 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import WeatherDisplay from "./components/WeatherDisplay";
-import { LocationContext } from "./context/LocationContext";
 import "./app.scss";
 import { TimeContextProvider } from "./context/TimeContext";
 
 const App = () => {
-  const currentLocation = useContext(LocationContext);
   const initialState = "No city selected";
   const [currentCity, setCurrentCity] = useState(initialState);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const handleLocation = () => {
-    setError(false);
-    setIsLoading(true);
-    setCurrentCity(currentLocation);
-    setIsLoading(false);
-  };
 
   return (
     <TimeContextProvider>
       <div className="outter">
         <div className="container">
           <SearchBar
-            handleLocation={handleLocation}
             setCurrentCity={setCurrentCity}
             setIsLoading={setIsLoading}
             setError={setError}

@@ -10,8 +10,9 @@
     align-items: center;
     justify-content: center;
     .city {
-      font-size: x-large;
+      font-size: xx-large;
       font-weight: 500;
+      margin-bottom: 10px;
     }
     .temperature {
       display: flex;
@@ -20,12 +21,18 @@
       .current {
         font-size: 140px;
         font-weight: 100;
+        background-color: rgb(233, 233, 233);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
       }
       .min-max {
         font-size: small;
         display: flex;
+        justify-content: space-between;
         flex-direction: row;
         gap: 10px;
+        font-weight: 200;
       }
     }
     .weather-conditions {
