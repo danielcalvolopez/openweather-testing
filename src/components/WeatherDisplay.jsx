@@ -63,8 +63,17 @@ const WeatherDisplay = ({
         <div className="loading">Loading...</div>
       ) : !error ? (
         <div className="data-container">
-          <div className="city">
-            {cityData}, {country}
+          <div className="city-and-date">
+            <div className="city">
+              {cityData}, {country}
+            </div>
+            <div className="divider"> </div>
+            <div className="date-title">
+              {dateState.toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "short",
+              })}
+            </div>
           </div>
 
           <div className="temperature">
@@ -85,12 +94,6 @@ const WeatherDisplay = ({
         <div className="error">{errorMessage}</div>
       )}
       <div className="date">
-        {dateState.toLocaleDateString("en-GB", {
-          day: "numeric",
-          month: "short",
-          year: "numeric",
-        })}
-        ,{" "}
         {dateState.toLocaleString("en-GB", {
           hour: "numeric",
           minute: "numeric",

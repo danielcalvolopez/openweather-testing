@@ -9,10 +9,29 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    .city {
-      font-size: xx-large;
-      font-weight: 500;
+    .city-and-date {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       margin-bottom: 10px;
+      .date-title {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 20px;
+        font-weight: 600;
+      }
+      .city {
+        font-size: xx-large;
+        font-weight: 500;
+      }
+      .divider {
+        width: 1px;
+        background-color: gray;
+        height: 30px;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
     }
     .temperature {
       display: flex;
