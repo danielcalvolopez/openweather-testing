@@ -87,7 +87,7 @@ const WeatherDisplay = ({
           </div>
           <div className="weather-conditions">
             <img className="weather-logo" src={iconUrl} alt="weatherlogo" />
-            {/* <div>{weather}</div> */}
+            <div>{weather}</div>
           </div>
         </div>
       ) : (

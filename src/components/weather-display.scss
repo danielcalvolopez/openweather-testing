@@ -55,8 +55,18 @@
       }
     }
     .weather-conditions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       .weather-logo {
         width: 140px;
+        margin-bottom: -30px;
+        margin-top: -20px;
+      }
+      div {
+        margin-bottom: 30px;
+        color: rgb(166, 166, 166);
+        font-weight: 300;
       }
     }
   }
