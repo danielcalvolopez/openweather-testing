@@ -44,7 +44,6 @@ const WeatherDisplay = ({
           setWeather(weatherData?.weather?.[0]?.main);
           setWeatherIcon(weatherData?.weather?.[0]?.icon);
           setIconUrl(`http://openweathermap.org/img/wn/${weatherIcon}@2x.png`);
-          console.log(weatherData);
         })
         .catch((err) => {
           setError(true);
@@ -80,8 +79,8 @@ const WeatherDisplay = ({
             <div className="current">
               {temp}º
               <div className="min-max">
-                <p>Min: {minTemp}º</p>
-                <p>Max: {maxTemp}º</p>
+                <p>L: {minTemp}º</p>
+                <p>H: {maxTemp}º</p>
               </div>
             </div>
           </div>
